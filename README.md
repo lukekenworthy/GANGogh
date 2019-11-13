@@ -12,7 +12,7 @@ We used training data from wikiart.org, but any training data will do. It's pref
 
 ### Step 2 - Prepare the training data
 
-Use picStuff.py to create image data set of 64x64 pieces of art scraped from wikiart. Take note of the `root` and `PATH` variables and modify accordingly.
+Use [resize_rename.py](misc/resize_rename_images.py) to create image data set of 64x64 pieces of art scraped from wikiart. Take note of the `root` and `PATH` variables and modify accordingly.
 
 ### Step 3 - Modify files
 
