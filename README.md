@@ -4,6 +4,16 @@
 
 **Note**: Code heavily inspired and built off of the improved wasserstein GAN training code available and found at [igul222/improved_wgan_training](https://github.com/igul222/improved_wgan_training)
 
+## Requirements
+
+- Python 3.7.5
+
+- Python dependencies
+
+  ```sh
+  pip install -r requirements.txt
+  ```
+
 ## Usage
 
 ### Step 1 - Gather training data
