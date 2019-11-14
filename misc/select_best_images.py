@@ -114,4 +114,3 @@ def generate_best_images():
             )
         except Exception as e:
             print(e)
-

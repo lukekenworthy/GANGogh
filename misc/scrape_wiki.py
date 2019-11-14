@@ -3,13 +3,13 @@ This file contains a script that scrapes the wikiart database for a certain spec
 """
 
 import os
-import bs4
 import urllib
-import urllib.request
+import requests
 from bs4 import BeautifulSoup
 import itertools
-from multiprocessing.dummy import Pool as ThreadPool
+from multiprocessing import Pool
 import multiprocessing
+import re
 
 # A list of genres hosted on wikiart.org as well as the number of pages to pull images from, numbers were set from manual inspection and are only approximations of how many pages each genre contains
 genres = [
@@ -34,28 +34,23 @@ genres = [
 def soupit(j, genre):
     try:
         url = "https://www.wikiart.org/en/paintings-by-genre/" + genre + "/" + str(j)
-        html = urllib.request.urlopen(url)
-        soup = BeautifulSoup(html)
-        found = False
+        html = requests.get(url)
+        soup = BeautifulSoup(html.content, "html.parser")
         urls = []
-        for i in str(soup.findAll()).split():
-            if i == "data":
-                found = True
-            if found == True:
-                if "}];" in i:
-                    break
-                if "https" in i:
-                    web = "http" + i[6:-2]
-                    urls.append(web)
-                    j = j + 1
+
+        container = soup.select_one("div.artworks-by-dictionary")
+        art_dict = container["ng-init"]
+
+        url_regex = r"http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+"
+        urls = re.findall(url_regex, art_dict)
+
         return urls
     except Exception as e:
+        print(e)
         print("Failed to find the following genre page combo: " + genre + str(j))
 
 
 # Given a url for an image, we download and save the image while also recovering information about the painting in the saved name depending on the length of the file.split('/') information (which corresponds to how much information is available)
-
-
 def dwnld(web, genre):
     i, file = web
     name = file.split("/")
@@ -72,7 +67,6 @@ def dwnld(web, genre):
     try:
         urllib.request.urlretrieve(file, savename)
     except Exception:
-        ofile = file
         file = urllib.parse.urlsplit(file)
         file = list(file)
         file[2] = urllib.parse.quote(file[2])
@@ -86,11 +80,12 @@ def dwnld(web, genre):
 
 # We can run both the url retrieving code and the image downloading code in parallel, and we set up the logic for that here
 def for_genre(genre, num):
-    pool = ThreadPool(multiprocessing.cpu_count() - 1)
-    nums = list(range(1, num))
-    results = pool.starmap(soupit, zip(nums, itertools.repeat(genre)))
-    pool.close()
-    pool.join()
+    cpu_count = multiprocessing.cpu_count() - 1
+    with Pool(processes=cpu_count) as pool:
+        nums = list(range(1, num))
+        results = pool.starmap(soupit, zip(nums, itertools.repeat(genre)))
+        pool.close()
+        pool.join()
 
     # build up the list of urls with the results of all the sub-processes that succeeded in a single list
     new_results = []
@@ -99,15 +94,17 @@ def for_genre(genre, num):
             for i in j:
                 new_results.append(i)
 
-    pool = ThreadPool(multiprocessing.cpu_count() - 1)
-    pool.starmap(dwnld, zip(enumerate(new_results), itertools.repeat(genre)))
-    pool.close
-    pool.close()
+    with Pool(processes=cpu_count) as download_pool:
+        download_pool.starmap(
+            dwnld, zip(enumerate(new_results), itertools.repeat(genre))
+        )
+        download_pool.close()
+        download_pool.join()
 
 
 if __name__ == "__main__":
-    for (a, b) in genres:
-        if not os.path.exists("./" + a):
-            os.mkdir(a)
-        for_genre(a, b)
+    for (g, n) in genres:
+        if not os.path.exists("./" + g):
+            os.mkdir(g)
+        for_genre(g, n)
 
