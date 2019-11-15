@@ -1,35 +1,57 @@
 """
-A script designed to 1) resize all of the downloaded images to desired dimension (DEFAULT 64x64 pixels) and 2) rename images in folders from 1.png to n.png for ease of use in training
+A script designed to:
+1) resize all of the downloaded images to desired dimension (DEFAULT 64x64 pixels) and
+2) rename images in folders from 1.png to n.png for ease of use in training
 """
 
 import os
-import scipy.misc
 import random
+import PIL
+from PIL import Image
+from pathlib import Path
 
-root = "./fullimages"
+original_images_dir = Path("./portrait")
+
+# Set your own resized_images_dir
+resized_images_dir = Path("./small/")
 
 
-# Set your own PATH
-PATH = os.path.normpath("C:/Users/kenny/Desktop/toGit/misc/smallimages/")
+def resize_image(base_path, dest_path):
+    """
+    Source: https://opensource.com/life/15/2/resize-images-python
+    """
+    TARGET_BASEWIDTH = 64
 
-for subdir, dirs, files in os.walk(root):
-    style = subdir[2:]
+    img = Image.open(base_path)
+
+    # wpercent = TARGET_BASEWIDTH / float(img.size[0])
+    # hsize = int((float(img.size[1]) * float(wpercent)))
+
+    img = img.resize((TARGET_BASEWIDTH, TARGET_BASEWIDTH), PIL.Image.ANTIALIAS)
+    img.save(dest_path)
+
+
+for subdir, dirs, files in os.walk(original_images_dir):
+    # print(subdir)
+    # exit()
+    # style = subdir[2:]
+    style = subdir
     name = style
+    dest_dir = Path.joinpath(resized_images_dir, name)
+
     if len(style) < 1:
         continue
-    try:
-        os.stat(PATH + name)
-    except:
-        os.mkdir(PATH + name)
 
+    dest_dir.mkdir(parents=True, exist_ok=True)
+
+    style = Path(style)
     i = 0
     for f in files:
-        source = style + "\\" + f
-        print(str(i) + source)
+        source = Path.joinpath(style, f)
         try:
-            image = scipy.misc.imread(source)
-            image = scipy.misc.imresize(image, (64, 64))
-            scipy.misc.imsave(PATH + name + "\\" + str(i) + ".png", image)
+            dest_path = Path.joinpath(dest_dir, str(i) + ".png")
+            resize_image(source, dest_path)
             i += 1
-        except Exception:
+        except Exception as e:
+            print(e)
             print("missed it: " + source)
