@@ -2,16 +2,18 @@
 
 
 import numpy as np
-import scipy.misc
+import imageio
 import time
 import random
 import os
+from pathlib import Path
+from PIL import Image
 
 # Set the dimension of images you want to be passed in to the network
 DIM = 64
 
 # Set your own path to images
-path = os.path.normpath("../misc/smallimages/")
+path = os.path.normpath("../misc/small/")
 
 # This dictionary should be updated to hold the absolute number of images associated with each genre used during training
 styles = {
@@ -101,15 +103,15 @@ def make_generator(files, batch_size, n_classes):
             for style in styles:
                 styleLabel = styleNum[style]
                 curr = curPos[style]
-                for i in range(class_batch):
+                for _ in range(class_batch):
                     if curr == styles[style]:
                         curr = 0
                         random.shuffle(list(files[style]))
-                    t0 = time.time()
-                    image = scipy.misc.imread(
-                        "{}/{}/{}.png".format(path, style, str(curr)), mode="RGB"
-                    )
-                    # image = scipy.misc.imresize(image,(DIM,DIM))
+
+                    img_path = Path(path, style, str(curr) + ".png")
+                    image = Image.open(img_path).convert(mode="RGB")
+                    image = np.asarray(image)
+
                     images[n % batch_size] = image.transpose(2, 0, 1)
                     labels[n % batch_size, int(styleLabel)] = 1
                     n += 1
@@ -128,8 +130,8 @@ def make_generator(files, batch_size, n_classes):
 
 def load(batch_size):
     return (
-        make_generator(trainNums, batch_size, 14),
-        make_generator(testNums, batch_size, 14),
+        make_generator(trainNums, batch_size, len(styles)),
+        make_generator(testNums, batch_size, len(styles)),
     )
 
 
@@ -139,7 +141,7 @@ if __name__ == "__main__":
     t0 = time.time()
     for i, batch in enumerate(train_gen(), start=1):
         a, b = batch
-        print(str(time.time() - t0))
+        print("time ", str(time.time() - t0))
         if i == 1000:
             break
         t0 = time.time()
