@@ -16,7 +16,7 @@ import tflib.ops.conv2d
 import tflib.ops.batchnorm
 import tflib.ops.deconv2d
 import tflib.save_images
-import tflib.wikiartGenre
+import tflib.wikiart_genre
 import tflib.ops.layernorm
 import tflib.plot
 
@@ -334,7 +334,7 @@ with tf.Session(config=tf.ConfigProto(allow_soft_placement=True)) as session:
 
 
     # Dataset iterator
-    train_gen, dev_gen = lib.wikiartGenre.load(BATCH_SIZE)
+    train_gen, dev_gen = lib.wikiart_genre.load(BATCH_SIZE)
 
     def softmax_cross_entropy(logit, y):
         return -tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(logits=logit, labels=y))

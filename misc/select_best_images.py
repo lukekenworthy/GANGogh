@@ -1,6 +1,6 @@
 """A file that contains various methods that can be ported into the training method to select 'better' generated images"""
 
-PATH = "."  # Set your own path
+resized_images_dir = "."  # Set your own path
 
 # Recommended default select method, greedily selects generated images that are classified correctly according to their generated label and have a 'pretty good' realness classification score
 def generate_good_images(iteration, thresh=0.95):
@@ -43,7 +43,7 @@ def generate_good_images(iteration, thresh=0.95):
             samples = images
             lib.save_images.save_images(
                 samples.reshape((-1, 3, 64, 64)),
-                PATH + "/good_samples_{}.png".format(str(i)),
+                resized_images_dir + "/good_samples_{}.png".format(str(i)),
             )
         except Exception as e:
             print(e)
@@ -110,7 +110,7 @@ def generate_best_images():
                         samples = image
             lib.save_images.save_images(
                 samples.reshape((-1, 3, DIMI, DIMI)),
-                PATH + "/best_samples_{}.png".format(str(i)),
+                resized_images_dir + "/best_samples_{}.png".format(str(i)),
             )
         except Exception as e:
             print(e)

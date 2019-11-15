@@ -1,5 +1,7 @@
 """
-This file contains a script that scrapes the wikiart database for a certain specified amount of photos for given genres. The amount of images downloaded can be controlled in the genres dictionary. This method is up-to-date with respect to url names and image amounts as of June 2017.
+This file contains a script that scrapes the wikiart database for a certain specified amount of photos for given genres.
+The amount of images downloaded can be controlled in the genres dictionary.
+This method is up-to-date with respect to url names and image amounts as of June 2017.
 """
 
 import os
