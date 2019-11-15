@@ -10,7 +10,7 @@ import PIL
 from PIL import Image
 from pathlib import Path
 
-original_images_dir = Path("./portrait")
+original_images_dir = Path("./original")
 
 # Set your own resized_images_dir
 resized_images_dir = Path("./small/")
@@ -32,11 +32,15 @@ def resize_image(base_path, dest_path):
 
 
 for subdir, dirs, files in os.walk(original_images_dir):
-    # print(subdir)
-    # exit()
-    # style = subdir[2:]
+    if subdir == original_images_dir.name:
+        continue
+
     style = subdir
+
     name = style
+    # Remove parent directory from name
+    name = name.replace(original_images_dir.name + "/", "")
+
     dest_dir = Path.joinpath(resized_images_dir, name)
 
     if len(style) < 1:
@@ -54,4 +58,4 @@ for subdir, dirs, files in os.walk(original_images_dir):
             i += 1
         except Exception as e:
             print(e)
-            print("missed it: " + source)
+            print("missed it: " + str(source))

@@ -52,7 +52,7 @@ styles = {'abstract': 14999,
           'symbolic-painting': 2999}
 ```
 
-### Step 3 - Make art!
+### Step 4 - Make art!
 
 Run `GANGogh.py`
 

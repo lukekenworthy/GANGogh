@@ -13,7 +13,7 @@ from PIL import Image
 DIM = 64
 
 # Set your own path to images
-path = os.path.normpath("../misc/small/")
+src_img_path = os.path.normpath("../misc/small/")
 
 # This dictionary should be updated to hold the absolute number of images associated with each genre used during training
 styles = {
@@ -87,7 +87,9 @@ def inf_gen(gen):
 
 def make_generator(files, batch_size, n_classes):
     if batch_size % n_classes != 0:
-        raise ValueError("batch size must be divisible by num classes")
+        raise ValueError(
+            f"Batch size {batch_size} must be divisible by num classes {n_classes}"
+        )
 
     class_batch = batch_size // n_classes
 
@@ -108,7 +110,7 @@ def make_generator(files, batch_size, n_classes):
                         curr = 0
                         random.shuffle(list(files[style]))
 
-                    img_path = Path(path, style, str(curr) + ".png")
+                    img_path = Path(src_img_path, style, str(curr) + ".png")
                     image = Image.open(img_path).convert(mode="RGB")
                     image = np.asarray(image)
 

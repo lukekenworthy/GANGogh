@@ -4,7 +4,7 @@ Image grid saver, based on color_grid_vis from github.com/Newmu
 
 import numpy as np
 import scipy.misc
-from scipy.misc import imsave
+from PIL import Image
 
 
 def save_images(X, save_path):
@@ -38,4 +38,5 @@ def save_images(X, save_path):
         i = n % nw
         img[j * h : j * h + h, i * w : i * w + w] = x
 
-    imsave(save_path, img)
+    img = Image.fromarray(img, "RGB")
+    img.save(save_path)
