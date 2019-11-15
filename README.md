@@ -25,7 +25,7 @@ You can download the training data from:
 - [this torrent](http://academictorrents.com/details/1d154cde2fab9ec8039becd03d9bb877614d351b) or
 - [Google Drive file](https://drive.google.com/file/d/1yHqS2zXgCiI9LO4gN-X5W18QYXC5bbQS/view?usp=sharing)
 
-If both of those fail, consider using `scape_wiki.py` as a last resort.
+If both of those fail, consider using `scrape_wiki.py` as a last resort.
 
 ### Step 2 - Prepare the training data
 
