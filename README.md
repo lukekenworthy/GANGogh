@@ -18,15 +18,22 @@
 
 ### Step 1 - Gather training data
 
-We used training data from wikiart.org, but any training data will do. It's prefered to download this training data from [this torrent](http://academictorrents.com/details/1d154cde2fab9ec8039becd03d9bb877614d351b) or the [Google Drive file](https://drive.google.com/file/d/1yHqS2zXgCiI9LO4gN-X5W18QYXC5bbQS/view?usp=sharing). If both of those fail, consider using scape_wiki.py as a last resort.
+We used training data from wikiart.org, but any training data will do.
+
+You can download the training data from:
+
+- [this torrent](http://academictorrents.com/details/1d154cde2fab9ec8039becd03d9bb877614d351b) or
+- [Google Drive file](https://drive.google.com/file/d/1yHqS2zXgCiI9LO4gN-X5W18QYXC5bbQS/view?usp=sharing)
+
+If both of those fail, consider using `scape_wiki.py` as a last resort.
 
 ### Step 2 - Prepare the training data
 
-Use [resize_rename.py](misc/resize_rename_images.py) to create image data set of 64x64 pieces of art scraped from wikiart. Take note of the `root` and `PATH` variables and modify accordingly.
+Use [resize_rename.py](misc/resize_rename_images.py) to create image data set of 64x64 pieces of art scraped from wikiart.org. Take note of the `root` and `resized_images_dir` variables and modify accordingly.
 
 ### Step 3 - Modify files
 
-Update the path to the dataset in wikiartGenre.py. Also, update the `styles` variable dictating the number of training images per genre. If using the traning data set linked, above, use the following:
+Update the path to the dataset in `wikiart_genre.py`. Also, update the `styles` variable dictating the number of training images per genre. If using the traning data set linked, above, use the following:
 
 ```python
 styles = {'abstract': 14999,
@@ -47,4 +54,12 @@ styles = {'abstract': 14999,
 
 ### Step 3 - Make art!
 
-Run GANGogh.py
+Run `GANGogh.py`
+
+## Troubleshooting
+
+macOS may have been in progress in another thread when fork() was called
+
+```sh
+env OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES python script.py
+```
