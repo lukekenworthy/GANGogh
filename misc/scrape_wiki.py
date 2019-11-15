@@ -7,11 +7,14 @@ This method is up-to-date with respect to url names and image amounts as of June
 import os
 import urllib
 import requests
-from bs4 import BeautifulSoup
 import itertools
-from multiprocessing import Pool
 import multiprocessing
 import re
+from multiprocessing import Pool
+from bs4 import BeautifulSoup
+from pathlib import Path
+
+original_images_dir = Path("./original")
 
 # A list of genres hosted on wikiart.org as well as the number of pages to pull images from, numbers were set from manual inspection and are only approximations of how many pages each genre contains
 genres = [
@@ -46,9 +49,10 @@ def soupit(j, genre):
         url_regex = r"http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+"
         urls = re.findall(url_regex, art_dict)
 
+        print(str(genre) + " images found: " + str(len(urls)))
         return urls
     except Exception as e:
-        print(e)
+        print("soupit exception: " + e)
         print("Failed to find the following genre page combo: " + genre + str(j))
 
 
@@ -58,13 +62,19 @@ def dwnld(web, genre):
     name = file.split("/")
     savename = ""
     if len(name) == 6:
-        savename = genre + "/" + name[4] + "+" + name[5].split(".")[0] + ".jpg"
+        savename = Path.joinpath(
+            original_images_dir, genre, name[4] + "+" + name[5].split(".")[0] + ".jpg"
+        )
     if len(name) == 5:
-        savename = genre + "/" + name[4].split(".")[0] + ".jpg"
+        savename = Path.joinpath(
+            original_images_dir, genre, name[4].split(".")[0] + ".jpg"
+        )
     if len(name) == 7:
-        savename = genre + "/" + name[5] + "+" + name[6].split(".")[0] + ".jpg"
+        savename = Path.joinpath(
+            original_images_dir, genre, name[5] + "+" + name[6].split(".")[0] + ".jpg"
+        )
 
-    print(genre + str(i))
+    print("dwnld " + genre + str(i))
     # If we get an exception in this operation it is probably because there was a nonstandard unicode character in the name of the painting, do some fancy magic to fix this in the exception handling code
     try:
         urllib.request.urlretrieve(file, savename)
@@ -105,8 +115,8 @@ def for_genre(genre, num):
 
 
 if __name__ == "__main__":
+    original_images_dir.mkdir(parents=True, exist_ok=True)
     for (g, n) in genres:
-        if not os.path.exists("./" + g):
-            os.mkdir(g)
+        Path.joinpath(original_images_dir, g).mkdir(parents=True, exist_ok=True)
         for_genre(g, n)
 
