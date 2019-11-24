@@ -24,9 +24,6 @@ def resize_image(base_path, dest_path):
 
     img = Image.open(base_path)
 
-    # wpercent = TARGET_BASEWIDTH / float(img.size[0])
-    # hsize = int((float(img.size[1]) * float(wpercent)))
-
     img = img.resize((TARGET_BASEWIDTH, TARGET_BASEWIDTH), PIL.Image.ANTIALIAS)
     img.save(dest_path)
 
@@ -35,7 +32,7 @@ for subdir, dirs, files in os.walk(original_images_dir):
     if subdir == original_images_dir.name:
         continue
 
-    style = subdir
+    style = Path(subdir).name
 
     name = style
     # Remove parent directory from name
@@ -51,7 +48,7 @@ for subdir, dirs, files in os.walk(original_images_dir):
     style = Path(style)
     i = 0
     for f in files:
-        source = Path.joinpath(style, f)
+        source = Path.joinpath(original_images_dir, style, f)
         try:
             dest_path = Path.joinpath(dest_dir, str(i) + ".png")
             resize_image(source, dest_path)
