@@ -8,6 +8,8 @@
 
 - Python 3.7.5
 
+  - [pyenv](https://github.com/pyenv/pyenv) is recommended
+
 - Python dependencies
 
   ```sh
@@ -25,7 +27,7 @@ You can download the training data from:
 - [this torrent](http://academictorrents.com/details/1d154cde2fab9ec8039becd03d9bb877614d351b) or
 - [Google Drive file](https://drive.google.com/file/d/1yHqS2zXgCiI9LO4gN-X5W18QYXC5bbQS/view?usp=sharing)
 
-If both of those fail, consider using `scrape_wiki.py` as a last resort.
+If both of those fail, consider using [scrape_wiki.py](misc/scrape_wiki.py) as a last resort.
 
 ### Step 2 - Prepare the training data
 
@@ -33,7 +35,7 @@ Use [resize_rename.py](misc/resize_rename_images.py) to create image data set of
 
 ### Step 3 - Modify files
 
-Update the path to the dataset in `wikiart_genre.py`. Also, update the `styles` variable dictating the number of training images per genre. If using the traning data set linked, above, use the following:
+Update the path to the dataset in [wikiart_genre.py](tflib/wikiart_genre.py). Also, update the `styles` variable dictating the number of training images per genre. If using the traning data set linked, above, use the following:
 
 ```python
 styles = {'abstract': 14999,
@@ -52,13 +54,17 @@ styles = {'abstract': 14999,
           'symbolic-painting': 2999}
 ```
 
+<!-- markdownlint-disable no-trailing-punctuation -->
+
 ### Step 4 - Make art!
 
-Run `GANGogh.py`
+<!-- markdownlint-enable no-trailing-punctuation -->
+
+Run [GANGogh.py](GANgogh.py)
 
 ## Troubleshooting
 
-macOS may have been in progress in another thread when fork() was called
+macOS may have been in progress in another thread when `fork()` was called
 
 ```sh
 env OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES python script.py
