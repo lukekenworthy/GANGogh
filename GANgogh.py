@@ -29,7 +29,7 @@ N_GPUS = 1  # Number of GPUs
 BATCH_SIZE = 84  # Batch size. Must be a multiple of CLASSES and N_GPUS
 ITERS = 200000  # How many iterations to train for
 LAMBDA = 10  # Gradient penalty lambda hyperparameter
-OUTPUT_DIM = 64 * 64 * 3  # Number of pixels in each image
+OUTPUT_DIM = DIM * DIM * 3  # Number of pixels in each image
 CLASSES = 14  # Number of classes, for genres probably 14
 PREITERATIONS = 2000  # Number of preiteration training cycles to run
 lib.print_model_settings(locals().copy())
@@ -277,7 +277,7 @@ def kACGANGenerator(
 
 
 def kACGANDiscriminator(inputs, numClasses, dim=DIM, bn=True, nonlinearity=LeakyReLU):
-    output = tf.reshape(inputs, [-1, 3, 64, 64])
+    output = tf.reshape(inputs, [-1, 3, dim, dim])
 
     lib.ops.conv2d.set_weights_stdev(0.02)
     lib.ops.deconv2d.set_weights_stdev(0.02)
@@ -336,7 +336,7 @@ Generator, Discriminator = GeneratorAndDiscriminator()
 
 with tf.compat.v1.Session(config=tf.compat.v1.ConfigProto(allow_soft_placement=True)) as session:
 
-    all_real_data_conv = tf.compat.v1.placeholder(tf.int32, shape=[BATCH_SIZE, 3, 64, 64])
+    all_real_data_conv = tf.compat.v1.placeholder(tf.int32, shape=[BATCH_SIZE, 3, DIM, DIM])
     all_real_label_conv = tf.compat.v1.placeholder(tf.int32, shape=[BATCH_SIZE, CLASSES])
 
     generated_labels_conv = tf.compat.v1.placeholder(tf.int32, shape=[BATCH_SIZE, CLASSES])
@@ -480,7 +480,7 @@ with tf.compat.v1.Session(config=tf.compat.v1.ConfigProto(allow_soft_placement=T
             )
             samples = ((samples + 1.0) * (255.99 / 2)).astype("int32")
             lib.save_images.save_images(
-                samples.reshape((BATCH_SIZE, 3, 64, 64)),
+                samples.reshape((BATCH_SIZE, 3, DIM, DIM)),
                 "generated/samples_{}_{}.png".format(str(i), iteration),
             )
 
@@ -503,7 +503,7 @@ with tf.compat.v1.Session(config=tf.compat.v1.ConfigProto(allow_soft_placement=T
     _x_r = session.run(real_data, feed_dict={all_real_data_conv: _x})
     _x_r = ((_x_r + 1.0) * (255.99 / 2)).astype("int32")
     lib.save_images.save_images(
-        _x_r.reshape((BATCH_SIZE, 3, 64, 64)), "generated/samples_groundtruth.png"
+        _x_r.reshape((BATCH_SIZE, 3, DIM, DIM)), "generated/samples_groundtruth.png"
     )
 
     session.run(
