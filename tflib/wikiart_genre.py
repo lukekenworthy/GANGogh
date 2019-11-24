@@ -88,7 +88,7 @@ def inf_gen(gen):
 def make_generator(files, batch_size, n_classes):
     if batch_size % n_classes != 0:
         raise ValueError(
-            f"Batch size {batch_size} must be divisible by num classes {n_classes}"
+            "Batch size {} must be divisible by num classes {}".format(batch_size, n_classes)
         )
 
     class_batch = batch_size // n_classes
