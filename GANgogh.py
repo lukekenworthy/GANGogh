@@ -21,7 +21,6 @@ import tflib.wikiart_genre
 import tflib.ops.layernorm
 import tflib.plot
 
-
 MODE = "acwgan"  # dcgan, wgan, wgan-gp, lsgan
 DIM = 64  # Model dimensionality
 CRITIC_ITERS = 5  # How many iterations to train the critic for
@@ -193,7 +192,7 @@ def kACGANGenerator(
     lib.ops.deconv2d.set_weights_stdev(0.02)
     lib.ops.linear.set_weights_stdev(0.02)
     if noise is None:
-        noise = tf.random.normal([n_samples, 128])
+        noise = tf.random_normal([n_samples, 128])
 
     labels = tf.cast(labels, tf.float32)
     noise = tf.concat([noise, labels], 1)
@@ -334,13 +333,13 @@ def genRandomLabels(n_samples, numClasses, condition=None):
 
 Generator, Discriminator = GeneratorAndDiscriminator()
 
-with tf.compat.v1.Session(config=tf.compat.v1.ConfigProto(allow_soft_placement=True)) as session:
+with tf.Session(config=tf.ConfigProto(allow_soft_placement=True)) as session:
 
-    all_real_data_conv = tf.compat.v1.placeholder(tf.int32, shape=[BATCH_SIZE, 3, DIM, DIM])
-    all_real_label_conv = tf.compat.v1.placeholder(tf.int32, shape=[BATCH_SIZE, CLASSES])
+    all_real_data_conv = tf.placeholder(tf.int32, shape=[BATCH_SIZE, 3, DIM, DIM])
+    all_real_label_conv = tf.placeholder(tf.int32, shape=[BATCH_SIZE, CLASSES])
 
-    generated_labels_conv = tf.compat.v1.placeholder(tf.int32, shape=[BATCH_SIZE, CLASSES])
-    sample_labels_conv = tf.compat.v1.placeholder(tf.int32, shape=[BATCH_SIZE, CLASSES])
+    generated_labels_conv = tf.placeholder(tf.int32, shape=[BATCH_SIZE, CLASSES])
+    sample_labels_conv = tf.placeholder(tf.int32, shape=[BATCH_SIZE, CLASSES])
 
     split_real_data_conv = tf.split(all_real_data_conv, len(DEVICES))
     split_real_label_conv = tf.split(all_real_label_conv, len(DEVICES))
@@ -408,7 +407,7 @@ with tf.compat.v1.Session(config=tf.compat.v1.ConfigProto(allow_soft_placement=T
             gen_cost += generated_class_cost
             disc_cost += real_class_cost
 
-            alpha = tf.random.uniform(
+            alpha = tf.random_uniform(
                 shape=[BATCH_SIZE // len(DEVICES), 1], minval=0.0, maxval=1.0
             )
             differences = fake_data - real_data
@@ -428,21 +427,21 @@ with tf.compat.v1.Session(config=tf.compat.v1.ConfigProto(allow_soft_placement=T
     gen_cost = tf.add_n(gen_costs) / len(DEVICES)
     disc_cost = tf.add_n(disc_costs) / len(DEVICES)
 
-    gen_train_op = tf.compat.v1.train.AdamOptimizer(
+    gen_train_op = tf.train.AdamOptimizer(
         learning_rate=1e-4, beta1=0.5, beta2=0.9
     ).minimize(
         gen_cost,
         var_list=lib.params_with_name("Generator"),
         colocate_gradients_with_ops=True,
     )
-    disc_train_op = tf.compat.v1.train.AdamOptimizer(
+    disc_train_op = tf.train.AdamOptimizer(
         learning_rate=1e-4, beta1=0.5, beta2=0.9
     ).minimize(
         disc_cost,
         var_list=lib.params_with_name("Discriminator."),
         colocate_gradients_with_ops=True,
     )
-    class_train_op = tf.compat.v1.train.AdamOptimizer(
+    class_train_op = tf.train.AdamOptimizer(
         learning_rate=1e-4, beta1=0.5, beta2=0.9
     ).minimize(
         real_class_cost_gradient,

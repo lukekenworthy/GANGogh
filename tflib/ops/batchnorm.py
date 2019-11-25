@@ -48,7 +48,7 @@ def Batchnorm(
         )
 
         def _fused_batch_norm_training():
-            return tf.compat.v1.nn.fused_batch_norm(
+            return tf.nn.fused_batch_norm(
                 inputs, scale, offset, epsilon=1e-5, data_format="NCHW"
             )
 
