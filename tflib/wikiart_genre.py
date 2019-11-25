@@ -9,11 +9,15 @@ import os
 from pathlib import Path
 from PIL import Image
 
+import sys
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+import settings
+
 # Set the dimension of images you want to be passed in to the network
 DIM = 64
 
 # Set your own path to images
-src_img_path = os.path.normpath("../misc/small/")
+src_img_path = os.path.normpath(settings.RESIZED_IMAGES_PATH)
 
 # This dictionary should be updated to hold the absolute number of images associated with each genre used during training
 styles = {

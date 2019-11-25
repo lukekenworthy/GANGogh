@@ -31,7 +31,9 @@ If both of those fail, consider using [scrape_wiki.py](misc/scrape_wiki.py) as a
 
 ### Step 2 - Prepare the training data
 
-Use [resize_rename.py](misc/resize_rename_images.py) to create image data set of 64x64 pieces of art scraped from wikiart.org. Take note of the `root` and `resized_images_dir` variables and modify accordingly.
+Use [resize_rename.py](misc/resize_rename_images.py) to create image data set of 64x64 pieces of art scraped from wikiart.org.
+
+Adjust the variables `ORIGINAL_IMAGES_PATH` and `RESIZED_IMAGES_PATH` in [settings.py](settings.py) accordingly.
 
 ### Step 3 - Modify files
 

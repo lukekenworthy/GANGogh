@@ -10,10 +10,12 @@ import PIL
 from PIL import Image
 from pathlib import Path
 
-original_images_dir = Path("./original")
+import sys
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+import settings
 
-# Set your own resized_images_dir
-resized_images_dir = Path("./small/")
+original_images_dir = Path(settings.ORIGINAL_IMAGES_PATH)
+resized_images_dir = Path(settings.RESIZED_IMAGES_PATH)
 
 
 def resize_image(base_path, dest_path):

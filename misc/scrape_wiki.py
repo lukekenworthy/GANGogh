@@ -14,7 +14,11 @@ from multiprocessing import Pool
 from bs4 import BeautifulSoup
 from pathlib import Path
 
-original_images_dir = Path("./original")
+import sys
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+import settings
+
+original_images_dir = Path(settings.ORIGINAL_IMAGES_PATH)
 
 # A list of genres hosted on wikiart.org as well as the number of pages to pull images from, numbers were set from manual inspection and are only approximations of how many pages each genre contains
 genres = [
