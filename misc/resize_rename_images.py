@@ -30,7 +30,8 @@ def resize_image(base_path, dest_path):
     img.save(dest_path)
 
 
-for subdir, dirs, files in os.walk(original_images_dir):
+
+for subdir, dirs, files in os.walk(str(original_images_dir)):
     if subdir == original_images_dir.name:
         continue
 
