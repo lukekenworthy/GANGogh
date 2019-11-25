@@ -6,7 +6,7 @@
 
 ## Requirements
 
-- Python 3.7.5
+- Python 3.5.6
 
   - [pyenv](https://github.com/pyenv/pyenv) is recommended
 
@@ -15,6 +15,8 @@
   ```sh
   pip install -r requirements.txt
   ```
+
+- Tensorflow with [GPU support](https://www.tensorflow.org/install/gpu) (macOS not supported)
 
 ## Usage
 
@@ -37,23 +39,27 @@ Adjust the variables `ORIGINAL_IMAGES_PATH` and `RESIZED_IMAGES_PATH` in [settin
 
 ### Step 3 - Modify files
 
-Update the path to the dataset in [wikiart_genre.py](tflib/wikiart_genre.py). Also, update the `styles` variable dictating the number of training images per genre. If using the traning data set linked, above, use the following:
+**Read** the following notes and then [wikiart_genre.py](tflib/wikiart_genre.py).
+
+Before that, update the `styles` variable dictating the number of training images per genre. If using the traning data set linked, above, use the following:
 
 ```python
-styles = {'abstract': 14999,
-          'animal-painting': 1798,
-          'cityscape': 6598,
-          'figurative': 4500,
-          'flower-painting': 1800,
-          'genre-painting': 14997,
-          'landscape': 15000,
-          'marina': 1800,
-          'mythological-painting': 2099,
-          'nude-painting-nu': 3000,
-          'portrait': 14999,
-          'religious-painting': 8400,
-          'still-life': 2996,
-          'symbolic-painting': 2999}
+styles = {
+  'abstract': 14999,
+  'animal-painting': 1798,
+  'cityscape': 6598,
+  'figurative': 4500,
+  'flower-painting': 1800,
+  'genre-painting': 14997,
+  'landscape': 15000,
+  'marina': 1800,
+  'mythological-painting': 2099,
+  'nude-painting-nu': 3000,
+  'portrait': 14999,
+  'religious-painting': 8400,
+  'still-life': 2996,
+  'symbolic-painting': 2999
+}
 ```
 
 <!-- markdownlint-disable no-trailing-punctuation -->
@@ -63,11 +69,3 @@ styles = {'abstract': 14999,
 <!-- markdownlint-enable no-trailing-punctuation -->
 
 Run [GANGogh.py](GANgogh.py)
-
-## Troubleshooting
-
-macOS may have been in progress in another thread when `fork()` was called
-
-```sh
-env OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES python script.py
-```
