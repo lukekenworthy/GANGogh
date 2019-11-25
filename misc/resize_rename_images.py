@@ -6,8 +6,9 @@ A script designed to:
 
 import os
 import random
-import PIL
-from PIL import Image
+# import PIL
+# from PIL import Image
+import scipy.misc
 from pathlib import Path
 
 import sys
@@ -19,16 +20,19 @@ resized_images_dir = Path(settings.RESIZED_IMAGES_PATH)
 
 
 def resize_image(base_path, dest_path):
-    """
-    Source: https://opensource.com/life/15/2/resize-images-python
-    """
+    # """
+    # Source: https://opensource.com/life/15/2/resize-images-python
+    # """
     TARGET_BASEWIDTH = 64
 
-    img = Image.open(base_path)
+    image = scipy.misc.imread(base_path)
+    image = scipy.misc.imresize(image,(TARGET_BASEWIDTH,TARGET_BASEWIDTH))
+    scipy.misc.imsave(dest_path,image)
 
-    img = img.resize((TARGET_BASEWIDTH, TARGET_BASEWIDTH), PIL.Image.ANTIALIAS)
-    img.save(dest_path)
+    # img = Image.open(base_path)
 
+    # img = img.resize((TARGET_BASEWIDTH, TARGET_BASEWIDTH), PIL.Image.ANTIALIAS)
+    # img.convert('RGB').save(dest_path, "PNG")
 
 
 for subdir, dirs, files in os.walk(str(original_images_dir)):
