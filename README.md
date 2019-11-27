@@ -8,7 +8,7 @@
 
 - Python 3.5.6
 
-  - [pyenv](https://github.com/pyenv/pyenv) is recommended
+  [pyenv](https://github.com/pyenv/pyenv) is recommended
 
 - Python dependencies
 
@@ -17,6 +17,13 @@
   ```
 
 - Tensorflow with [GPU support](https://www.tensorflow.org/install/gpu) (macOS not supported)
+
+  To test if Tensorflow GPU is correctly set up [run](https://www.tensorflow.org/api_docs/python/tf/test/is_gpu_available):
+
+  ```python
+  import tensorflow as tf
+  tf.test.is_gpu_available()
+  ```
 
 ## Usage
 
