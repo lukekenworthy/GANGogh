@@ -75,4 +75,8 @@ styles = {
 
 <!-- markdownlint-enable no-trailing-punctuation -->
 
-Run [GANGogh.py](GANgogh.py)
+Run [gangogh.py](gangogh.py)
+
+```python
+python gangogh.py
+```
