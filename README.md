@@ -2,9 +2,9 @@
 
 [Blog post](https://towardsdatascience.com/gangogh-creating-art-with-gans-8d087d8f74a1)
 
-**Note**: Code heavily inspired and built off of the improved wasserstein GAN training code available and found at [igul222/improved_wgan_training](https://github.com/igul222/improved_wgan_training)
-
 ## Requirements
+
+- OS: Windows or Linux
 
 - Python 3.5.6
 
@@ -16,7 +16,9 @@
   pip install -r requirements.txt
   ```
 
-- Tensorflow with [GPU support](https://www.tensorflow.org/install/gpu) (macOS not supported)
+- Tensorflow with [GPU support](https://www.tensorflow.org/install/gpu) for v1.2.1 (macOS not supported)
+
+  Tensorflow v1.2.1 [requires](https://www.tensorflow.org/install/source#tested_build_configurations) CUDA 8 and cuDNN 5.1
 
   To test if Tensorflow GPU is correctly set up [run](https://www.tensorflow.org/api_docs/python/tf/test/is_gpu_available):
 
@@ -27,7 +29,7 @@
 
 ## Usage
 
-### Step 1 - Gather training data
+### 1. Gather training data
 
 We used training data from wikiart.org, but any training data will do.
 
@@ -38,17 +40,19 @@ You can download the training data from:
 
 If both of those fail, consider using [scrape_wiki.py](misc/scrape_wiki.py) as a last resort.
 
-### Step 2 - Prepare the training data
-
-Use [resize_rename.py](misc/resize_rename_images.py) to create image data set of 64x64 pieces of art scraped from wikiart.org.
+### 2. Prepare the training data
 
 Adjust the variables `ORIGINAL_IMAGES_PATH` and `RESIZED_IMAGES_PATH` in [settings.py](settings.py) accordingly.
 
-### Step 3 - Modify files
+Use [resize_rename.py](misc/resize_rename_images.py) to create image data set of 64x64 pieces of art scraped from [wikiart.org](https://www.wikiart.org):
 
-**Read** the following notes and then [wikiart_genre.py](tflib/wikiart_genre.py).
+```python
+python misc/resize_rename_images.py
+```
 
-Before that, update the `styles` variable dictating the number of training images per genre. If using the traning data set linked, above, use the following:
+### 3. Modify files
+
+Update the `styles` variable in [wikiart_genre.py](tflib/wikiart_genre.py) dictating the number of training images per genre. If using the traning data set linked, above, use the following:
 
 ```python
 styles = {
@@ -71,7 +75,7 @@ styles = {
 
 <!-- markdownlint-disable no-trailing-punctuation -->
 
-### Step 4 - Make art!
+### 4. Make art!
 
 <!-- markdownlint-enable no-trailing-punctuation -->
 
@@ -80,3 +84,7 @@ Run [gangogh.py](gangogh.py)
 ```python
 python gangogh.py
 ```
+
+## Credits
+
+Code heavily inspired and built off of the improved wasserstein GAN training code available and found at [igul222/improved_wgan_training](https://github.com/igul222/improved_wgan_training)
