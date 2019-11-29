@@ -1,4 +1,5 @@
 import os, sys
+from pathlib import Path
 
 sys.path.append(os.getcwd())
 
@@ -33,6 +34,8 @@ CLASSES = 14  # Number of classes, for genres probably 14
 PREITERATIONS = 2000  # Number of preiteration training cycles to run
 lib.print_model_settings(locals().copy())
 
+# Ensure that directory exists where ground truth and plots will be saved to.
+Path('generated').mkdir(parents=True, exist_ok=True)
 
 def GeneratorAndDiscriminator():
     return kACGANGenerator, kACGANDiscriminator
