@@ -11,7 +11,7 @@ import math
 
 import numpy as np
 import tensorflow.compat.v1 as tf
-tf.disable_vs_behavior()
+tf.disable_v1_behavior()
 
 import tflib as lib
 import tflib.ops.linear
