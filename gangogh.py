@@ -336,7 +336,7 @@ def genRandomLabels(n_samples, numClasses, condition=None):
 
 Generator, Discriminator = GeneratorAndDiscriminator()
 
-with tf.compat.v1.Session(config=tf.ConfigProto(allow_soft_placement=True)) as session:
+with tf.compat.v1.Session(config=tf.compat.v1.ConfigProto(allow_soft_placement=True)) as session:
 
     all_real_data_conv = tf.placeholder(tf.int32, shape=[BATCH_SIZE, 3, DIM, DIM])
     all_real_label_conv = tf.placeholder(tf.int32, shape=[BATCH_SIZE, CLASSES])
