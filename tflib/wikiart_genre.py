@@ -21,20 +21,7 @@ src_img_path = os.path.normpath(settings.RESIZED_IMAGES_PATH)
 
 # This dictionary should be updated to hold the absolute number of images associated with each genre used during training
 styles = {
-    "abstract": 14794,
-    "animal-painting": 1319,
-    "cityscape": 5833,
-    "figurative": 3335,
-    "flower-painting": 1260,
-    "genre-painting": 14881,
-    "landscape": 14893,
-    "marina": 1199,
-    "mythological-painting": 1670,
-    "nude-painting-nu": 2276,
-    "portrait": 14496,
-    "religious-painting": 7915,
-    "still-life": 2314,
-    "symbolic-painting": 2454,
+    "dataset": 300,
 }
 
 styleNum = {
