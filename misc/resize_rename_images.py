@@ -7,9 +7,12 @@ A script designed to:
 import os
 import random
 # import PIL
-# from PIL import Image
+from PIL import Image
 import scipy.misc
 from pathlib import Path
+import matplotlib.pyplot as plt
+import numpy as np
+import imageio
 
 import sys
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -25,9 +28,9 @@ def resize_image(base_path, dest_path):
     # """
     TARGET_BASEWIDTH = 64
 
-    image = scipy.misc.imread(base_path)
-    image = scipy.misc.imresize(image,(TARGET_BASEWIDTH,TARGET_BASEWIDTH))
-    scipy.misc.imsave(dest_path,image)
+    image = plt.imread(base_path)
+    image = np.array(Image.fromarray(image).resize((TARGET_BASEWIDTH,TARGET_BASEWIDTH)))
+    imageio.imwrite(dest_path, image)
 
     # img = Image.open(base_path)
 
@@ -36,6 +39,8 @@ def resize_image(base_path, dest_path):
 
 
 for subdir, dirs, files in os.walk(str(original_images_dir)):
+    # if subdir == original_images_dir.name:
+    #     continue
 
     style = Path(subdir).name
 
@@ -54,6 +59,7 @@ for subdir, dirs, files in os.walk(str(original_images_dir)):
     i = 0
     for f in files:
         source = Path.joinpath(original_images_dir, f)
+
         try:
             dest_path = Path.joinpath(dest_dir, str(i) + ".png")
             resize_image(source, dest_path)
@@ -61,3 +67,4 @@ for subdir, dirs, files in os.walk(str(original_images_dir)):
         except Exception as e:
             print(e)
             print("missed it: " + str(source))
+            raise e
