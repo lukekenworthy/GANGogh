@@ -36,8 +36,6 @@ def resize_image(base_path, dest_path):
 
 
 for subdir, dirs, files in os.walk(str(original_images_dir)):
-    if subdir == original_images_dir.name:
-        continue
 
     style = Path(subdir).name
 
@@ -55,7 +53,7 @@ for subdir, dirs, files in os.walk(str(original_images_dir)):
     style = Path(style)
     i = 0
     for f in files:
-        source = Path.joinpath(original_images_dir, style, f)
+        source = Path.joinpath(original_images_dir, f)
         try:
             dest_path = Path.joinpath(dest_dir, str(i) + ".png")
             resize_image(source, dest_path)
