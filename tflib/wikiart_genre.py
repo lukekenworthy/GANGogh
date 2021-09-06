@@ -24,39 +24,9 @@ styles = {
     "dataset": 300,
 }
 
-styleNum = {
-    "abstract": 0,
-    "animal-painting": 1,
-    "cityscape": 2,
-    "figurative": 3,
-    "flower-painting": 4,
-    "genre-painting": 5,
-    "landscape": 6,
-    "marina": 7,
-    "mythological-painting": 8,
-    "nude-painting-nu": 9,
-    "portrait": 10,
-    "religious-painting": 11,
-    "still-life": 12,
-    "symbolic-painting": 13,
-}
+styleNum = {k: i for i, k in enumerate(styles.keys())}
 
-curPos = {
-    "abstract": 0,
-    "animal-painting": 0,
-    "cityscape": 0,
-    "figurative": 0,
-    "flower-painting": 0,
-    "genre-painting": 0,
-    "landscape": 0,
-    "marina": 0,
-    "mythological-painting": 0,
-    "nude-painting-nu": 0,
-    "portrait": 0,
-    "religious-painting": 0,
-    "still-life": 0,
-    "symbolic-painting": 0,
-}
+curPos = {k: 0 for k in styles.keys()}
 
 testNums = {}
 trainNums = {}
