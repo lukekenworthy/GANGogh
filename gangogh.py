@@ -30,7 +30,7 @@ BATCH_SIZE = 84  # Batch size. Must be a multiple of CLASSES and N_GPUS
 ITERS = 200000  # How many iterations to train for
 LAMBDA = 10  # Gradient penalty lambda hyperparameter
 OUTPUT_DIM = DIM * DIM * 3  # Number of pixels in each image
-CLASSES = 14  # Number of classes, for genres probably 14
+CLASSES = len(tflib.wikiart_genre.styles)  # Number of classes, for genres probably 14
 PREITERATIONS = 2000  # Number of preiteration training cycles to run
 lib.print_model_settings(locals().copy())
 
